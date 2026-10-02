@@ -43,7 +43,35 @@ user == null ? undefined : user.name
 items.toSorted()
 ```
 
-- **Возможность браузера.** Сборка строку не меняет. `structuredClone(data)` либо есть в браузере, либо нет.
+- **Возможность браузера.** Сборка эту строку не меняет. Она либо есть в браузере, либо нет.
+
+```js
+structuredClone(data)
+```
+
+<style>
+.slidev-layout.thesis-slide .slidev-code {
+  font-size: 15px !important;
+  line-height: 22px !important;
+  margin: 0.35rem 0 0.8rem !important;
+}
+</style>
+
+---
+class: thesis-slide
+---
+
+# Синтаксис заменяется проверкой
+
+```js
+// что пишем мы
+name ?? 'гость'
+// что примерно получит браузер
+name != null ? name : 'гость'
+```
+
+- **Замену решают две настройки.** Список в `.browserslistrc`: есть ли там браузер, который этих знаков не знает. Поле `target` в `tsconfig`: до какой старой записи можно опуститься.
+- **Проверка длиннее одной строки `name ?? 'гость'`.** Отдельный файл полифила за эти знаки не появляется.
 
 <style>
 .slidev-layout.thesis-slide .slidev-code {
