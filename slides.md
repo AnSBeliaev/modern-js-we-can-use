@@ -119,10 +119,10 @@ class: thesis-slide
 `defaults` — правило, какие версии браузеров поддерживать. `es2023` — год JavaScript в файле с кодом приложения. На снимке `toSorted` ещё нет. С ним файл полифилов 12,09 КБ, на 0,15 КБ больше.
 
 ---
-class: thesis-slide
+class: thesis-slide problem-slide
 ---
 
-# `sort` возвращает тот же массив
+# `sort` мутирует массив
 
 ```js
 const [items, setItems] = useState(['груша', 'арбуз', 'слива'])
@@ -136,7 +136,7 @@ const onSort = () => {
 - **`sort` сортирует этот же массив и возвращает его же.** `setItems` получает тот же массив, React не рисует список заново, и на экране остается старый порядок.
 
 ---
-class: thesis-slide
+class: thesis-slide answer-slide
 ---
 
 # `toSorted` возвращает новый массив
@@ -145,7 +145,78 @@ class: thesis-slide
 setItems(items.toSorted())
 ```
 
-- **Сборка вызов не переписывает.** Это метод. Если браузера из списка его нет, готовая функция попадает в файл полифилов.
+- **Сборка вызов не переписывает.** Если метода нет у браузера из списка, готовая функция попадает в файл полифилов.
 - **В бандл это добавляет 0,15 КБ.** Файл полифилов был 11,94 КБ, с вызовом `toSorted` стал 12,09 КБ. Код приложения остаётся 68,78 КБ.
 - **Место в коде есть.** В списке «Сортировать» вместо `items.sort()` пишем `items.toSorted()`. Метод возвращает новый массив, React рисует список заново: арбуз, груша, слива.
 - **Ещё три метода возвращают новый массив.** `toReversed` для reverse, `toSpliced` для splice и `with` для записи `items[0] = 'яблоко'` в тот же массив.
+
+---
+class: thesis-slide problem-slide
+---
+
+# Проблема создания категорий вручную
+
+```js
+const goods = [
+  { name: 'Яблоки', category: 'fruits' },
+  { name: 'Бананы', category: 'fruits' },
+  { name: 'Огурцы', category: 'vegetables' },
+]
+
+const grouped = goods.reduce((acc, item) => {
+  const key = item.category
+  if (!acc[key]) {
+    acc[key] = []
+  }
+  acc[key].push(item)
+  return acc
+}, {})
+```
+
+- **Для новой категории пустой массив создаём сами.** Иначе `acc[key]` пустой, и строка с `push` падает.
+- **Вокруг группировки много лишнего кода.** Надо прочитать ключ, проверку и `push` в массив.
+
+<style>
+.slidev-layout.thesis-slide .slidev-code {
+  font-size: 15px !important;
+  line-height: 22px !important;
+  margin: 0.35rem 0 0.8rem !important;
+}
+</style>
+
+---
+class: thesis-slide answer-slide
+---
+
+# `Object.groupBy` собирает группы сам
+
+```js
+const grouped = Object.groupBy(goods, (item) => item.category)
+
+grouped.fruits
+```
+
+- **Пустой массив создавать не нужно.** Метод сам кладёт товары одной категории в массив. Вся группировка — одна строка.
+- **Ключ — строка.** Функция возвращает `item.category`: для яблок и бананов это `'fruits'`. Если вернуть число, ключом всё равно будет строка.
+- **Сборка не переписывает вызов.** Если у браузера из списка нет такого метода, готовая функция попадает в файл полифилов.
+
+---
+class: thesis-slide answer-slide
+---
+
+# Ключом `Map.groupBy` может быть объект
+
+```js
+const fruits = { title: 'Фрукты' }
+const vegetables = { title: 'Овощи' }
+
+const grouped = Map.groupBy(goods, (item) => {
+  return item.category === 'fruits' ? fruits : vegetables
+})
+
+grouped.get(fruits)
+```
+
+- **`Object.groupBy` так не умеет.** Его ключ только строка. Яблоки и бананы здесь читаются вызовом `grouped.get(fruits)` по объекту категории.
+- **Сборка этот вызов тоже не переписывает.** Если у браузера из списка нет такого метода, готовая функция попадает в файл полифилов.
+

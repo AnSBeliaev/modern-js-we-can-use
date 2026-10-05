@@ -87,6 +87,8 @@
 .slidev-layout.champions-slide { --label-bg: #c4b5fd; }
 .slidev-layout.stages-slide { --label-bg: #86efac; }
 .slidev-layout.thesis-slide { --label-bg: #f7df1e; }
+.slidev-layout.problem-slide { --label-bg: #f87171; }
+.slidev-layout.answer-slide { --label-bg: #4ade80; }
 .slidev-layout.decorators-slide { --label-bg: #fcd34d; }
 .slidev-layout.two-fns-slide { --label-bg: #93c5fd; }
 .slidev-layout.temporal-slide { --label-bg: #fde68a; }
