@@ -277,13 +277,13 @@ new Set(listA).union(new Set(listB))
 class: thesis-slide
 ---
 
-# Методы приезжают вместе с `new Set`
+# С `new Set` в файл попадают методы
 
 ```js
-// в коде приложения
+// вызов, который мы пишем
 new Set(tagsA).intersection(new Set(tagsB))
 
-// если new Set в коде нет — в настройке сборки
+// если new Set в коде нет — настройка сборки
 additionalModernPolyfills: [
   'core-js/modules/es.set.intersection.v2.js',
   'core-js/modules/es.set.difference.v2.js',
@@ -291,8 +291,8 @@ additionalModernPolyfills: [
 ]
 ```
 
-- **Вызов `intersection` сборка не узнаёт.** Без `new Set` в коде готовой функции нет, и на браузере из списка без метода вызов падает.
-- **`new Set` сборка узнаёт.** С ним в файл полифилов попадают эти три метода. В приложении такой вызов уже есть. Если его нет, те же файлы дописывают отдельным списком.
+- **Слово `intersection` для сборки не повод класть полифил.** Без `new Set` кода метода в файле нет и на браузере из списка без метода вызов падает.
+- **`new Set` сборка видит.** С ним в файл полифилов попадает код `intersection` и `difference` и `union`. Если `new Set` в коде нет, эти три файла дописывают в настройке сборки.
 
 ---
 class: thesis-slide problem-slide
