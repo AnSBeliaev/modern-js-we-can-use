@@ -52,6 +52,12 @@
   border-radius: 0 0.45rem 0.45rem 0;
 }
 
+.slidev-layout.boundary-slide h1 {
+  font-size: 1.45rem;
+  line-height: 1.2;
+  max-width: min(88%, calc(100% - 8rem));
+}
+
 .slidev-layout.tc39-slide { --label-bg: #fde68a; }
 
 .slidev-layout.tc39-slide .tc39-kicker {
