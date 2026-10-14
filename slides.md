@@ -98,7 +98,7 @@ class: thesis-slide year-slide
 class: thesis-slide year-slide span-years
 ---
 
-# ES2020–2022 — уже можно писать
+# ES2020–2022 — уже можно использовать
 
 | Фича | Статус | В браузерах |
 | --- | --- | --- |
@@ -145,7 +145,7 @@ class: thesis-slide year-slide
 
 `toSorted` и три соседних метода возвращают новый массив и старый не мутируют. В браузерах они с июля 2023, но в нашем `defaults` ещё есть Chrome 109, а методы появились в Chrome 110. Без готовой функции вызов там упадёт, поэтому берём с полифилом.
 
-`findLast` и `findLastIndex` полифил не просят: в том же Chrome 109 они уже есть. В Safari оба пришли в версии 15.4, вместе с `at`. Сейчас разберём `toSorted` и типичный баг с `sort` в React.
+`findLast` и `findLastIndex` полифил не просят: в том же Chrome 109 они уже есть. В Safari оба пришли в версии 15.4, вместе с `at`.
 
 <style>
 .slidev-layout.year-slide table {
