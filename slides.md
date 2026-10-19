@@ -561,6 +561,99 @@ class: thesis-slide year-slide
 </style>
 
 ---
+class: thesis-slide catalog-slide
+---
+
+# Один пример по годам
+
+````md magic-move
+```js
+function prepareCatalog(response, items) {
+  const limit = (response && response.settings && response.settings.limit) || 20
+  const sorted = items.sort((a, b) => a.price - b.price)
+  const priciest = sorted[sorted.length - 1]
+  const byCategory = sorted.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = []
+    acc[item.category].push(item)
+    return acc
+  }, {})
+  return { top: sorted.slice(0, limit), priciest, byCategory }
+}
+```
+```js {2}
+function prepareCatalog(response, items) {
+  const limit = response?.settings?.limit ?? 20
+  const sorted = items.sort((a, b) => a.price - b.price)
+  const priciest = sorted[sorted.length - 1]
+  const byCategory = sorted.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = []
+    acc[item.category].push(item)
+    return acc
+  }, {})
+  return { top: sorted.slice(0, limit), priciest, byCategory }
+}
+```
+```js {4}
+function prepareCatalog(response, items) {
+  const limit = response?.settings?.limit ?? 20
+  const sorted = items.sort((a, b) => a.price - b.price)
+  const priciest = sorted.at(-1)
+  const byCategory = sorted.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = []
+    acc[item.category].push(item)
+    return acc
+  }, {})
+  return { top: sorted.slice(0, limit), priciest, byCategory }
+}
+```
+```js {3}
+function prepareCatalog(response, items) {
+  const limit = response?.settings?.limit ?? 20
+  const sorted = items.toSorted((a, b) => a.price - b.price)
+  const priciest = sorted.at(-1)
+  const byCategory = sorted.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = []
+    acc[item.category].push(item)
+    return acc
+  }, {})
+  return { top: sorted.slice(0, limit), priciest, byCategory }
+}
+```
+```js {5}
+function prepareCatalog(response, items) {
+  const limit = response?.settings?.limit ?? 20
+  const sorted = items.toSorted((a, b) => a.price - b.price)
+  const priciest = sorted.at(-1)
+  const byCategory = Object.groupBy(sorted, (item) => item.category)
+  return { top: sorted.slice(0, limit), priciest, byCategory }
+}
+```
+````
+
+<v-switch at="1">
+  <template #0><p>items — массив из state.</p></template>
+  <template #1><p>ES2020: лимит 0 больше не превращается в 20.</p></template>
+  <template #2><p>ES2022: последний элемент без length - 1.</p></template>
+  <template #3><p>ES2023: sort больше не мутирует массив из state.</p></template>
+  <template #4><p>ES2024: группировка через reduce уходит. Короче вдвое, минус два бага.</p></template>
+</v-switch>
+
+<style>
+.slidev-layout.catalog-slide .slidev-code,
+.slidev-layout.catalog-slide pre {
+  font-size: 15px !important;
+  line-height: 22px !important;
+  margin: 0.15rem 0 !important;
+}
+.slidev-layout.catalog-slide p {
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.35;
+  margin: 0.35rem 0 0;
+}
+</style>
+
+---
 class: thesis-slide year-slide boundary-slide
 ---
 

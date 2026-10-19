@@ -52,6 +52,10 @@
   border-radius: 0 0.45rem 0.45rem 0;
 }
 
+.slidev-layout.catalog-slide .slidev-code-magic-move {
+  margin-top: 0.15rem;
+}
+
 .slidev-layout.boundary-slide h1 {
   font-size: 1.45rem;
   line-height: 1.2;
